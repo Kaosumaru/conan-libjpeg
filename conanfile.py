@@ -42,8 +42,5 @@ class libjpegConan(ConanFile):
         self.copy("*.lib", dst="lib", src="install/lib")
         self.copy("*.a", dst="lib", src="install/lib")
 
-        if not self.options.static:
-            self.copy("*.dll", dst="bin", src="install/bin")
-
     def package_info(self):
         self.cpp_info.libs = ["jpeg"]
