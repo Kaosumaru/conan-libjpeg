@@ -1,6 +1,7 @@
 from conans import ConanFile, CMake
 from conans import tools
 import os
+import shutil
 
 class libjpegConan(ConanFile):
     name = "libjpeg"
@@ -9,17 +10,22 @@ class libjpegConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     exports = "libjpeg/*"
 
-    options = { "static": [True, False] }
-    default_options = "=False\n".join(options.keys()) + "=False"
 
-    libjpeg_name = "libjpeg-%s" % self.version
-    source_tgz = "http://www.ijg.org/files/jpegsr%s.zip" % self.version
+    libjpeg_name = "jpeg-%s" % version
+    source_tgz = "http://www.ijg.org/files/jpegsr%s.zip" % version
+    cmake_file = "https://raw.githubusercontent.com/Kaosumaru/conan-libjpeg/CMakeLists.txt"
+    jconfig_file = "https://raw.githubusercontent.com/Kaosumaru/conan-libjpeg/jconfig.h.cmake"
 
     def source(self):
         self.output.info("Downloading %s" % self.source_tgz)
-        tools.download(self.source_tgz, "libjpeg.tar.gz")
-        tools.unzip("libjpeg.tar.gz", ".")
-        os.unlink("libjpeg.tar.gz")
+        tools.download(self.source_tgz, "libjpeg.zip")
+        tools.unzip("libjpeg.zip", ".")
+        os.unlink("libjpeg.zip")
+
+        self.output.info("Downloading %s" % self.cmake_file)
+        tools.download(self.cmake_file, "%s/CMakeLists.txt" % self.libjpeg_name)
+        tools.download(self.jconfig_file, "%s/jconfig.h.cmake" % self.libjpeg_name)
+
 
     def config(self):
         pass
@@ -40,7 +46,4 @@ class libjpegConan(ConanFile):
             self.copy("*.dll", dst="bin", src="install/bin")
 
     def package_info(self):
-        if self.options.static:
-            self.cpp_info.libs = ["libjpeg_static"]
-        else:
-            self.cpp_info.libs = ["libjpeg"]
+        self.cpp_info.libs = ["jpeg"]
