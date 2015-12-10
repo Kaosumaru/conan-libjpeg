@@ -20,4 +20,4 @@ class DefaultNameConan(ConanFile):
         self.copy(pattern="*.dylib", dst="bin", src="lib")
 
     def test(self):
-        self.run("cd bin && .%stest" % (os.sep))
+        self.run("cd bin && .%stestproj" % (os.sep))
