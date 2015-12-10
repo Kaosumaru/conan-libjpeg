@@ -2,7 +2,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
 PROJECT(libjpeg C)
 
-configure_file ( jconfig.h.cmake jconfig.h )
+configure_file ( ${PROJECT_SOURCE_DIR}/jconfig.h.cmake ${PROJECT_SOURCE_DIR}/jconfig.h )
 
 SET(libjpeg_SRCS jmemnobs.c jaricom.c jcapimin.c jcapistd.c jcarith.c jccoefct.c jccolor.c
 	jcdctmgr.c jchuff.c jcinit.c jcmainct.c jcmarker.c jcmaster.c jcomapi.c jcparam.c
