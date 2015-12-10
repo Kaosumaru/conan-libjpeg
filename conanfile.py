@@ -13,8 +13,8 @@ class libjpegConan(ConanFile):
 
     libjpeg_name = "jpeg-%s" % version
     source_tgz = "http://www.ijg.org/files/jpegsr%s.zip" % version
-    cmake_file = "https://raw.githubusercontent.com/Kaosumaru/conan-libjpeg/CMakeLists.txt"
-    jconfig_file = "https://raw.githubusercontent.com/Kaosumaru/conan-libjpeg/jconfig.h.cmake"
+    cmake_file = "https://raw.githubusercontent.com/Kaosumaru/conan-libjpeg/master/CMakeLists.txt"
+    jconfig_file = "https://raw.githubusercontent.com/Kaosumaru/conan-libjpeg/master/jconfig.h.cmake"
 
     def source(self):
         self.output.info("Downloading %s" % self.source_tgz)
