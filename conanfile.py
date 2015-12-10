@@ -35,7 +35,7 @@ class libjpegConan(ConanFile):
 
         cmake = CMake(self.settings)
         self.run('cd %s && mkdir build' % self.libjpeg_name)
-        self.run('cd %s/build && cmake -DCMAKE_INSTALL_PREFIX:PATH=../install .. %s' % (self.libjpeg_name, cmake.command_line))
+        self.run('cd %s/build && cmake -DCMAKE_INSTALL_PREFIX:PATH=../../install .. %s' % (self.libjpeg_name, cmake.command_line))
         self.run("cd %s/build && cmake --build . --target install %s" % (self.libjpeg_name, cmake.build_config))
 
     def package(self):
