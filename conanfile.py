@@ -8,13 +8,11 @@ class libjpegConan(ConanFile):
     version = "9a"
     url = "https://github.com/Kaosumaru/conan-libjpeg"
     settings = "os", "compiler", "build_type", "arch"
-    exports = "libjpeg/*"
-
+    exports = "CMake/*"
 
     libjpeg_name = "jpeg-%s" % version
     source_tgz = "http://www.ijg.org/files/jpegsr%s.zip" % version
-    cmake_file = "https://raw.githubusercontent.com/Kaosumaru/conan-libjpeg/master/CMakeLists.txt"
-    jconfig_file = "https://raw.githubusercontent.com/Kaosumaru/conan-libjpeg/master/jconfig.h.cmake"
+
 
     def source(self):
         self.output.info("Downloading %s" % self.source_tgz)
@@ -22,9 +20,9 @@ class libjpegConan(ConanFile):
         tools.unzip("libjpeg.zip", ".")
         os.unlink("libjpeg.zip")
 
-        self.output.info("Downloading %s" % self.cmake_file)
-        tools.download(self.cmake_file, "%s/CMakeLists.txt" % self.libjpeg_name)
-        tools.download(self.jconfig_file, "%s/jconfig.h.cmake" % self.libjpeg_name)
+        self.output.info("Copying CMakeLists.txt")
+        shutil.move("CMake/CMakeLists.txt", self.libjpeg_name)
+        shutil.move("CMake/jconfig.h.cmake", self.libjpeg_name)
 
 
     def config(self):
