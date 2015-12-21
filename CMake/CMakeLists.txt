@@ -33,6 +33,7 @@ if(MSVC AND CONAN_LINK_RUNTIME)
 
 	foreach(variable ${variables})
 		if(${variable} MATCHES "/MD")
+			string(REGEX REPLACE "/MDd" ${CONAN_LINK_RUNTIME} ${variable} "${${variable}}")
 			string(REGEX REPLACE "/MD" ${CONAN_LINK_RUNTIME} ${variable} "${${variable}}")
 		endif()
 	endforeach()
