@@ -1,5 +1,12 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
+function(DebugFlags)
+	foreach(variable ${ARGV})
+	  message(STATUS "  '${variable}': ${${variable}}")
+	endforeach()
+	message(STATUS "")
+endfunction(<name>)
+
 PROJECT(libjpeg C)
 
 configure_file ( ${PROJECT_SOURCE_DIR}/jconfig.h.cmake ${PROJECT_SOURCE_DIR}/jconfig.h )
@@ -31,12 +38,22 @@ if(MSVC AND CONAN_LINK_RUNTIME)
 	  CMAKE_CXX_FLAGS_RELWITHDEBINFO
 	)
 
+	#for debugging purposes
+	#message(STATUS "CONAN_LINK_RUNTIME: ${CONAN_LINK_RUNTIME}")
+	#message(STATUS "Initial build flags:")
+	#DebugFlags(${variables})
+
 	foreach(variable ${variables})
 		if(${variable} MATCHES "/MD")
-			string(REGEX REPLACE "/MDd" ${CONAN_LINK_RUNTIME} ${variable} "${${variable}}")
-			string(REGEX REPLACE "/MD" ${CONAN_LINK_RUNTIME} ${variable} "${${variable}}")
+			string(REPLACE "/MDd " "${CONAN_LINK_RUNTIME} " ${variable} "${${variable}}")
+			string(REPLACE "/MD " "${CONAN_LINK_RUNTIME} " ${variable} "${${variable}}")
 		endif()
 	endforeach()
+
+	#for debugging purposes
+	#message(STATUS "PostInitial build flags:")
+	#DebugFlags(${variables})
+
 endif(MSVC)
 
 ADD_LIBRARY(jpeg ${libjpeg_SRCS} ${libjpeg_HDRS})
