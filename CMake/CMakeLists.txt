@@ -18,6 +18,26 @@ SET(libjpeg_HDRS cderror.h cdjpeg.h jdct.h jinclude.h jmemsys.h jpegint.h
 #    LIST(APPEND libjpeg_SRCS win32/jpeg.def)
 #ENDIF(MSVC)
 
+if(MSVC AND CONAN_LINK_RUNTIME)
+	#by default CMake sets /MD for VS, replace it with ${CONAN_LINK_RUNTIME}
+	set(variables
+	  CMAKE_C_FLAGS_DEBUG
+	  CMAKE_C_FLAGS_MINSIZEREL
+	  CMAKE_C_FLAGS_RELEASE
+	  CMAKE_C_FLAGS_RELWITHDEBINFO
+	  CMAKE_CXX_FLAGS_DEBUG
+	  CMAKE_CXX_FLAGS_MINSIZEREL
+	  CMAKE_CXX_FLAGS_RELEASE
+	  CMAKE_CXX_FLAGS_RELWITHDEBINFO
+	)
+
+	foreach(variable ${variables})
+		if(${variable} MATCHES "/MD")
+			string(REGEX REPLACE "/MD" ${CONAN_LINK_RUNTIME} ${variable} "${${variable}}")
+		endif()
+	endforeach()
+endif(MSVC)
+
 ADD_LIBRARY(jpeg ${libjpeg_SRCS} ${libjpeg_HDRS})
 
 INSTALL(TARGETS jpeg
